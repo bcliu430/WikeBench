@@ -16,8 +16,11 @@ def getUrl(inf):
 def calcSize(urls):
     global Sum
     for url in urls:
-        U = urllib2.urlopen(url)
-        size = len(U.read())
+        try:
+            U = urllib2.urlopen(url)
+        except:
+            continue
+    size = len(U.read())
     Sum+= size
 
 def main():
