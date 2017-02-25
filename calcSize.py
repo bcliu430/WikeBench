@@ -29,16 +29,16 @@ def calcSize(urls):
         sortdict = {x:sizelist.count(x) for x in sizelist}     
 
 def plot():
-    plt.bar(range(len(sortdict)),sortdict.values())
-    plot.xticks(range(len(sortdict)),sortdict.keys())
+    plt.bar( range(len(sortdict)), sortdict.values(), align='center')
+    plt.xticks(range(len(sortdict)),sortdict.keys())
     plt.xlabel('size of wikipedia')
     plt.ylabel('occurance')
     plt.title('Wikipedia Tracefile')
     plt.grid(True)
-    plt.show()
+    plt.savefig('result.pdf')    
 
 def main():
     getUrl(sys.argv[1])
-
+    plot()
 
 main()
