@@ -20,8 +20,8 @@ def calcSize(urls):
             U = urllib2.urlopen(url)
         except:
             continue
-    size = len(U.read())
-    Sum+= size
+        size = len(U.read())
+        Sum+= size
 
 def main():
     getUrl(sys.argv[1])
