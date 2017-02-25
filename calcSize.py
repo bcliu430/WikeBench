@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 
 urls = []
 sizelist = []
+sortdict = {}
 def getUrl(inf):
     global urls
     with open(inf) as f:
@@ -19,16 +20,15 @@ def getUrl(inf):
 
 def calcSize(urls):
     global sortdict
-    for url in urls:
+    length = len(urls)/360000
+    for i in range(length):
         try:
-            U = urllib2.urlopen(url)
+            U = urllib2.urlopen(urls[i])
         except:
             continue
         size = len(U.read())
         sizelist.append(size)
         sortdict = {x:sizelist.count(x) for x in sizelist}     
-
-def plot():
     plt.bar( range(len(sortdict)), sortdict.values(), align='center')
     plt.xticks(range(len(sortdict)),sortdict.keys())
     plt.xlabel('size of wikipedia')
@@ -39,6 +39,5 @@ def plot():
 
 def main():
     getUrl(sys.argv[1])
-    plot()
 
 main()
