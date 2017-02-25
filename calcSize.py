@@ -1,9 +1,13 @@
 #!/usr/bin/env python
 import urllib2
 import sys
+import collections
+#import numpy as np
+#import matplotlib.mlab as mlab
+import matplotlib.pyplot as plt
 
 urls = []
-Sum = 0
+sizelist = []
 def getUrl(inf):
     global urls
     with open(inf) as f:
@@ -14,19 +18,27 @@ def getUrl(inf):
     calcSize(urls)
 
 def calcSize(urls):
-    global Sum
+    global sortdict
     for url in urls:
         try:
             U = urllib2.urlopen(url)
         except:
             continue
         size = len(U.read())
-        Sum+= size
+        sizelist.append(size)
+        sortdict = {x:sizelist.count(x) for x in sizelist}     
+
+def plot():
+    plt.bar(range(len(sortdict)),sortdict.values())
+    plot.xticks(range(len(sortdict)),sortdict.keys())
+    plt.xlabel('size of wikipedia')
+    plt.ylabel('occurance')
+    plt.title('Wikipedia Tracefile')
+    plt.grid(True)
+    plt.show()
 
 def main():
     getUrl(sys.argv[1])
 
 
 main()
-
-print Sum, len(urls)
