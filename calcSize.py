@@ -25,7 +25,7 @@ def saveSize(urls):
     global sortdict
     valid_url = 0
     urlLessThan50k = 0
-    length = len(urls)/36000  # 1hour /7200 = 0.5sec
+    length = len(urls)/7200  # 1hour /7200 = 0.5sec
     for i in range(length):
         try:
             U = urllib2.urlopen(urls[i])
@@ -49,20 +49,21 @@ def occurence():
 def histo(mylist, low, high, bins):
     step = (high - low + 0.0)/bins
     dist = collections.Counter((float(i)-low)//step for i in mylist)
-    list_out = []
+    dict_out = {}
     Sum = 0
     for b in range(bins):
         dist[b] = dist[b]/sum(dist)*100
-        list_out.append(dist[b])
-    plot(list_out)
+        dict_out.update({2500*b : dist[b]})
+    plot(dict_out)
 
-def plot(mylist):
-    print(mylist)
-    plt.hist(mylist)
+def plot(mydict):
+    print(mydict)
+    plt.bar(range(len(mydict)), mydict.values(),align='center')
+#    plt.xticks(range(len(mydict)), mydict.keys(),rotation=25)
     plt.xlabel('size of wikipedia web')
     plt.ylabel('percentage of occurance')
     plt.title('Wikipedia Tracefile')
-    plt.savefig('test.png')    
+    plt.savefig('percentage_plot_0.5s_3_trace.png')    
 
 
 def main():
