@@ -9,7 +9,7 @@ import os
 urls = []
 sizelist = []
 sortdict = {}
-dire = "./trace/"
+dire = "./trace_files/"
 Files = os.listdir(dire)
 
 def getUrl():
@@ -25,7 +25,7 @@ def saveSize(urls):
     global sortdict
     valid_url = 0
     urlLessThan50k = 0
-    length = len(urls)/7200  # 1hour /7200 = 0.5sec
+    length = len(urls)/36000  # 1hour /7200 = 0.5sec
     for i in range(length):
         try:
             U = urllib2.urlopen(urls[i])
@@ -34,19 +34,40 @@ def saveSize(urls):
             continue
         size = len(U.read())
         if( size <= 50000):
-	    with open ("data.out","a") as output:
-	    	output.write(size)
-'''		
+            size = str(size)
+            with open("size.out", "a+") as output:
+                output.write(size+'\n')
     
-    plt.hist(sizelist,bins=20)
-    plt.xlabel('size of wikipedia')
-    plt.ylabel('occurance')
+
+def occurence():
+    with open("size.out","r") as out:
+        lines = out.readlines()
+    for line in lines:
+        sizelist.append(line)
+    histo(sizelist,0,50000,20)    
+
+def histo(mylist, low, high, bins):
+    step = (high - low + 0.0)/bins
+    dist = collections.Counter((float(i)-low)//step for i in mylist)
+    list_out = []
+    Sum = 0
+    for b in range(bins):
+        dist[b] = dist[b]/sum(dist)*100
+        list_out.append(dist[b])
+    plot(list_out)
+
+def plot(mylist):
+    print(mylist)
+    plt.hist(mylist)
+    plt.xlabel('size of wikipedia web')
+    plt.ylabel('percentage of occurance')
     plt.title('Wikipedia Tracefile')
-    plt.savefig('plot.png')    
-'''
+    plt.savefig('test.png')    
+
 
 def main():
     getUrl()
+    occurence()
 
 main()
 
