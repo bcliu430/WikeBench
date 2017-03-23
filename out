@@ -1,5 +1,0 @@
-bash: line 11:  8209 Segmentation fault      ./calcSize.py
-
-real	24m8.195s
-user	19m59.176s
-sys	3m26.636s
